@@ -17,9 +17,9 @@ function CheckingThePalindrome (string) {
   string = string.replaceAll(' ', '');//пробелы
   string = string.toLowerCase();//регистр
   let elements = '';
-  let lineLength = string.length;//длина слова/предложения без пробелов
+  const lineLength = string.length;//длина слова/предложения без пробелов
 
-  for (let j = lineLength-1 ; j >= 0; j--) {
+  for (let j = lineLength - 1 ; j >= 0; j--) {
     elements += string[j];//reverse
   }
 
@@ -42,7 +42,7 @@ function extractValues (string) {
     string = String(string);
   }
 
-  string = string.replaceAll(' ', '') //пробелы
+  string = string.replaceAll(' ', ''); //пробелы
   let elements = '';
   let num;
 
@@ -58,6 +58,7 @@ function extractValues (string) {
     return NaN;
   }
 
+  // eslint-disable-next-line no-console
   console.log(num);
 }
 extractValues('2023 год'); //2023
