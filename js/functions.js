@@ -7,6 +7,7 @@ function checkingTheLength (string, length) {
   }
 }
 
+
 checkingTheLength('', 6); // <= 0
 checkingTheLength('123456', 6); // === length
 checkingTheLength('1234567', 6); // > length
