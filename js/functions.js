@@ -14,9 +14,11 @@ function CheckingThePalindrome (string) {
   const newString = data.split('').reverse().join('');
   return data === newString;
 }
+
 CheckingThePalindrome('топот'); // true
 CheckingThePalindrome('ДовОд'); // true
 CheckingThePalindrome('Кекс'); // false
+CheckingThePalindrome('Лёша на полке клопа нашёл '); // true
 
 
 /*Функция принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
@@ -53,5 +55,6 @@ extractValues('ECMAScript 2022'); //2022
 extractValues('1 кефир, 0.5 батона'); //105
 extractValues('агент 007'); //7
 extractValues('а я томат'); //NaN
-extractValues(6); //6
-extractValues(6.6); //66
+extractValues(2023); // 2023
+extractValues(-1); // 1
+extractValues(1.5); // 15
