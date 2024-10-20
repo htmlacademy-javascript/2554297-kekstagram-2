@@ -1,36 +1,24 @@
 //Функция для проверки длины строки.
 function checkingTheLength (string, length) {
-  if(string.length <= 0 || string.length === length){
-    return true;
-  } else{
-    return false;
-  }
+  return string.length <= length;
 }
 
-
-checkingTheLength('', 6); // <= 0
-checkingTheLength('123456', 6); // === length
-checkingTheLength('1234567', 6); // > length
+checkingTheLength('проверяемая строка', 20); // true
+checkingTheLength('проверяемая строка', 18); // true
+checkingTheLength('проверяемая строка', 10); // false
 
 
 //Функция для проверки, является ли строка палиндромом.
 function CheckingThePalindrome (string) {
-  string = string.replaceAll(' ', '');//пробелы
-  string = string.toLowerCase();//регистр
-  let elements = '';
-  const lineLength = string.length;//длина слова/предложения без пробелов
-
-  for (let j = lineLength - 1 ; j >= 0; j--) {
-    elements += string[j];//reverse
-  }
-
-  if(string === elements){ //проверка: если значения переменных совпадают 1
-    return('слово/предложение является палидромом');
-  }
-  return('слово/предложение не является палидромом');
+  const data = string.replaceAll(' ', '').toLowerCase();//пробелы регистр
+  const newString = data.split('').reverse().join('');
+  return data === newString;
 }
-CheckingThePalindrome ('Лёша на полке клопа нашёл');
-CheckingThePalindrome ('КОт');
+
+CheckingThePalindrome('топот'); // true
+CheckingThePalindrome('ДовОд'); // true
+CheckingThePalindrome('Кекс'); // false
+CheckingThePalindrome('Лёша на полке клопа нашёл '); // true
 
 
 /*Функция принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
@@ -67,5 +55,6 @@ extractValues('ECMAScript 2022'); //2022
 extractValues('1 кефир, 0.5 батона'); //105
 extractValues('агент 007'); //7
 extractValues('а я томат'); //NaN
-extractValues(6); //6
-extractValues(6.6); //66
+extractValues(2023); // 2023
+extractValues(-1); // 1
+extractValues(1.5); // 15
