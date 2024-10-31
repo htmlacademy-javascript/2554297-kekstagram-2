@@ -15,6 +15,6 @@ const createUsers = (index) => ({
   likes: getRandomInteger(1, 200),
   comments: Array.from({ length: getRandomInteger(1, 30) }, (__, indexx) => createComment(indexx)),
 });
-const finalMas = Array.from({length:count}, (__, index) => createUsers(index));
+const finalMas = () => Array.from({length:count}, (__, index) => createUsers(index));
 
 export {finalMas};
