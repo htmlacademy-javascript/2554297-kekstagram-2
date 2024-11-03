@@ -1,3 +1,2 @@
-import { finalMas } from './data';
-// eslint-disable-next-line no-console
-console.log(finalMas);
+import {similarFinalMas} from './createMiniature.js';
+similarFinalMas();
