@@ -3,11 +3,10 @@ import { finalMas } from './mas.js';
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-const similarFinalMas = finalMas();
 
 const fragment = document.createDocumentFragment();
 
-similarFinalMas.forEach(({url, description, comments, likes}) => {
+finalMas().forEach(({url, description, comments, likes}) => {
   const copy = template.cloneNode(true);
 
   copy.querySelector('.picture__img').src = url;
@@ -19,7 +18,7 @@ similarFinalMas.forEach(({url, description, comments, likes}) => {
 });
 
 container.appendChild(fragment);
-export{similarFinalMas};
+export{finalMas};
 
 /* <template id="picture">
     <a href="#" class="picture">
