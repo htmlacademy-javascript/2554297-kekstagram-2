@@ -3,24 +3,20 @@ import { finalMas } from './mas.js';
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-const renderFinalMas = () => {
-  const fragment = document.createDocumentFragment();
 
-  finalMas().forEach(({url, description, comments, likes}) => {
-    const copy = template.cloneNode(true);
+const fragment = document.createDocumentFragment();
 
-    copy.querySelector('.picture__img').src = url;
-    copy.querySelector('  .picture__img').alt = description;
-    copy.querySelector('.picture__comments').textContent = comments.length;
-    copy.querySelector('.picture__likes').textContent = likes;
+finalMas().forEach(({url, description, comments, likes}) => {
+  const copy = template.cloneNode(true);
 
-    container.append(copy);
-  });
+  copy.querySelector('.picture__img').src = url;
+  copy.querySelector('  .picture__img').alt = description;
+  copy.querySelector('.picture__comments').textContent = comments.length;
+  copy.querySelector('.picture__likes').textContent = likes;
 
-  container.appendChild(fragment);
-};
+  container.append(copy);
+});
 
-const clearFinalMas = () => {
-  container.innerHTML = '';
-};
-export{renderFinalMas, clearFinalMas};
+container.appendChild(fragment);
+
+export{finalMas};

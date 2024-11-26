@@ -1,27 +1,68 @@
-import {renderFinalMas, clearFinalMas} from './createMiniature.js';
+import {isEscapeKey, isEnterKey} from './rand.js';
+import {createUsers, createComment} from './mas.js';
+import {description, messageCommentator, nameCommentator, count} from './data.js';
 
-const elementBigPicture = document.querySelector('.big-picture');
-const openPicture = document.querySelector('.big-picture__title').classList.remove('.visually-hidden');
-const closePicture = document.querySelector('.big-picture__cancel  cancel');
+const bigPicture = document.querySelector('.big-picture');
+const closePicture = document.querySelector('.big-picture__cancel');
+const container = document.querySelector('.pictures');
+const bigPictureImg = document.querySelector('.big-picture__img').querySelector('img');
 
-function openPictureModal () {
-  elementBigPicture.classList.remove('.hidden');
-  renderFinalMas();
+const photo = createUsers();
+
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePictureModal();
+  }
+};
+
+function openPictureModal() {
+  bigPicture.classList.remove('hidden');
+  document.addEventListener('keydown', onDocumentKeydown);
+}
+const addContainerClickHandler = function (containers, photos) {
+  containers.addEventListener('click', () => {
+    openPictureModal();
+    bigPictureImg.src = photos.url;
+  });
+};
+
+for (let index = 0; index < count; index++) {
+  addContainerClickHandler(container[index], photo[index].id);
 }
 
-function closePictureModal () {
-  elementBigPicture.classList.add('.hidden');
-  clearFinalMas();
-}
-
-openPicture.addEventListener('click', () => {
-  openPictureModal();
+container.addEventListener('keydown', (evt) => {
+  if (isEnterKey(evt)) {
+    openPictureModal();
+  }
 });
 
+
+function closePictureModal() {
+  bigPicture.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
 closePicture.addEventListener('click', () => {
   closePictureModal();
 });
+closePicture.addEventListener('keydown', (evt) => {
+  if (isEnterKey(evt)) {
+    closePictureModal();
+  }
+});
 
+//       <!-- Комментарии к изображению -->
+//       <div class="social__comment-count"><span class="social__comment-shown-count">5</span> из <span class="social__comment-total-count">125</span> комментариев</div>
+//       <ul class="social__comments">
+//         <li class="social__comment">
+//           <img class="social__picture" src="img/avatar-4.svg" alt="Аватар комментатора фотографии" width="35" height="35">
+//           <p class="social__text">Мега фото! Просто обалдеть. Как вам так удалось?</p>
+//         </li>
+//         <li class="social__comment">
+//           <img class="social__picture" src="img/avatar-3.svg" alt="Аватар комментатора фотографии" width="35" height="35">
+//            <p class="social__text">Да это фоташоп!!!!!!!!</p>
+//         </li>
+//       </ul>
 
 // <!-- Полноэкранный показ изображения -->
 // <section class="big-picture  overlay  hidden">

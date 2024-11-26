@@ -17,4 +17,4 @@ const createUsers = (index) => ({
 });
 const finalMas = () => Array.from({length:count}, (__, index) => createUsers(index));
 
-export {finalMas};
+export {finalMas, createUsers, createComment};
