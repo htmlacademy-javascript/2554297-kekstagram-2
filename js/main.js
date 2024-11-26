@@ -1,2 +1,1 @@
-import {similarFinalMas} from './createMiniature.js';
-similarFinalMas();
+import './fullPicture.js';
