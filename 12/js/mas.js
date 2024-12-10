@@ -3,7 +3,7 @@ import {description, messageCommentator, nameCommentator, count} from './data.js
 
 const createComment = (indexx) => ({
   id: indexx + 1,
-  avatar: `img/avatar-${ getRandomInteger(1, 6) } .svg`,
+  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
   message: `${getRandomArrayElement(messageCommentator)}`,
   name: `${getRandomArrayElement(nameCommentator)}`,
 });
