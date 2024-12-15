@@ -1,5 +1,5 @@
 import {isEscapeKey, isEnterKey} from './rand.js';
-import {dataThumbs} from './main.js';
+import {dataThumb} from './create-miniature.js';
 import {createSocialComment} from './mas.js';
 
 const bigPicture = document.querySelector('.big-picture');
@@ -25,9 +25,15 @@ function openPictureModal() {
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
+container.addEventListener('keydown', (evt) => {
+  if (isEnterKey(evt)) {
+    openPictureModal();
+  }
+});
+
 container.addEventListener('click', (evt) => {
   if (evt.target.closest('.picture')) {
-    const actualDescription = dataThumbs.find((element) => element.id === parseInt(evt.target.closest('.picture').dataset.id, 10));
+    const actualDescription = dataThumb.find((element) => element.id === parseInt(evt.target.closest('.picture').dataset.id, 10));
     openPictureModal();
     bigPictureImg.src = actualDescription.url;
     likesCount.textContent = actualDescription.likes;
@@ -35,12 +41,6 @@ container.addEventListener('click', (evt) => {
     photoCaption.textContent = actualDescription.description;
     document.body.classList.add('modal-open');
     createSocialComment(actualDescription.comments, commentsContainer);
-  }
-});
-
-container.addEventListener('keydown', (evt) => {
-  if (isEnterKey(evt)) {
-    openPictureModal();
   }
 });
 
