@@ -29,6 +29,7 @@ const makeElement = (name, className, message) => {
 const createSocialComment = (mas, container) => {
   mas.forEach((element) => {
     const listElement = makeElement('li', 'social__comment');
+    listElement.classList.add('hidden');
     const picture = makeElement('img', 'social__picture');
     picture.src = element.avatar;
     picture.alt = element.name;
