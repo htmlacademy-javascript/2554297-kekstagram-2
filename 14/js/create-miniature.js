@@ -1,4 +1,3 @@
-import { finalMas } from './mas.js';
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
@@ -17,7 +16,6 @@ const renderThumbs = (dataThumb) => {
 
 container.appendChild(fragment);
 
-const dataThumbs = finalMas();
-renderThumbs(dataThumbs);
-export {dataThumbs};
+
+export {renderThumbs};
 
