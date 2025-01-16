@@ -2,8 +2,8 @@ const template = document.querySelector('#picture').content.querySelector('.pict
 const container = document.querySelector('.pictures');
 
 const fragment = document.createDocumentFragment();
-const renderThumbs = (dataThumbs) => {
-  dataThumbs.forEach(({id, url, description, comments, likes}) => {
+const renderThumbs = (dataThumb) => {
+  dataThumb.forEach(({id, url, description, comments, likes}) => {
     const copy = template.cloneNode(true);
     copy.querySelector('.picture__img').src = url;
     copy.querySelector('.picture__img').alt = description;
@@ -16,4 +16,6 @@ const renderThumbs = (dataThumbs) => {
 
 container.appendChild(fragment);
 
-export{renderThumbs};
+
+export {renderThumbs};
+
