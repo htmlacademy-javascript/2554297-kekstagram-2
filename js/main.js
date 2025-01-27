@@ -1,10 +1,16 @@
 import './full-picture.js';
-import { finalMas } from './mas.js';
 import {renderThumbs} from './create-miniature.js';
 import { imageProcessor } from './full-picture.js';
 import {initUploadPictureModule} from './upload-pic.js';
-const dataThumbs = finalMas();
+import { getData } from './data.js';
+import { showErrorAlert } from './rand.js';
 initUploadPictureModule();
-renderThumbs(dataThumbs);
-imageProcessor(dataThumbs);
+getData()
+  .then((serverData) => {
+    const dataset = serverData;
+    renderThumbs(dataset);
+    imageProcessor(dataset);
+  })
+  .catch(() => showErrorAlert('Не удалось загрузить данные! Попробуйте перезагрузить страницу.'));
+
 

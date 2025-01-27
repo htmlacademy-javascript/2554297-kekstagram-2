@@ -2,6 +2,7 @@ const template = document.querySelector('#picture').content.querySelector('.pict
 const container = document.querySelector('.pictures');
 
 const fragment = document.createDocumentFragment();
+
 const renderThumbs = (dataThumb) => {
   dataThumb.forEach(({id, url, description, comments, likes}) => {
     const copy = template.cloneNode(true);
@@ -9,7 +10,7 @@ const renderThumbs = (dataThumb) => {
     copy.querySelector('.picture__img').alt = description;
     copy.querySelector('.picture__comments').textContent = comments.length;
     copy.querySelector('.picture__likes').textContent = likes;
-    copy.dataset.id = id;
+    copy.dataset.id = String(id);
     container.append(copy);
   });
 };

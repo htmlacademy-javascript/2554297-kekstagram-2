@@ -1,10 +1,13 @@
-import {validateUploadPictureForm} from './validation.js';
-import {createSlider, setupSlider, destroySlider} from './upload-slide.js';
+import { validateUploadPictureForm } from './validation.js';
+import { createSlider, setupSlider, destroySlider } from './upload-slide.js';
+import { showMessage, createSuccessMessage, createErrorMessage } from './fetch.js';
+import { sendData } from './data.js';
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = document.querySelector('#upload-file');
 const pictureUploadPreview = document.querySelector('.img-upload__preview img');
 const pictureEdit = document.querySelector('.img-upload__overlay');
+const submitButton = document.querySelector('.img-upload__submit');
 const closeButton = document.querySelector('.img-upload__cancel');
 
 const effectsList = document.querySelector('.effects__list');
@@ -13,6 +16,25 @@ const checkedEffectInput = document.querySelector('.effects__radio[checked]');
 const pictureScaleInput = document.querySelector('.scale__control--value');
 const pictureScaleDownButton = document.querySelector('.scale__control--smaller');
 const pictureScaleUpButton = document.querySelector('.scale__control--bigger');
+
+const onUploadPictureFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  if (validateUploadPictureForm()) {
+    blockSubmitButton();
+    sendData(new FormData(evt.target))
+      .then(() => {
+        showMessage(createSuccessMessage, 'success');
+        closePictureUpload();
+      })
+      .catch(() => {
+        showMessage(createErrorMessage, 'error');
+      })
+      .finally(() => unblockSubmitButton());
+  } else {
+    showMessage(createErrorMessage, 'error');
+  }
+};
 
 const onScaleDownButtonClick = () => {
   if (parseInt(pictureScaleInput.value, 10) > 25) {
@@ -25,12 +47,6 @@ const onScaleUpButtonClick = () => {
   if (parseInt(pictureScaleInput.value, 10) < 100) {
     pictureScaleInput.value = `${parseInt(pictureScaleInput.value, 10) + 25}%`;
     pictureUploadPreview.style.transform = `scale(${parseInt(pictureScaleInput.value, 10) / 100})`;
-  }
-};
-
-const onUploadPictureFormSubmit = (evt) => {
-  if (!validateUploadPictureForm()) {
-    evt.preventDefault();
   }
 };
 
@@ -69,24 +85,33 @@ const removeListeners = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const defaultSetupPictureUpload = () => {
+function blockSubmitButton() {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+}
+
+function unblockSubmitButton() {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+
+function defaultSetupPictureUpload() {
   pictureUploadForm.reset();
   pictureUploadPreview.style = null;
   pictureUploadPreview.className = 'effects__preview--none';
-};
+  pictureScaleInput.defaultValue = '100%';
+}
 
-function openPictureUpload () {
+function openPictureUpload() {
   addListeners();
   createSlider();
   setupSlider(checkedEffectInput.value);
-
-  pictureScaleInput.value = '100%';
 
   document.body.classList.add('modal-open');
   pictureEdit.classList.remove('hidden');
 }
 
-function closePictureUpload () {
+function closePictureUpload() {
   removeListeners();
   destroySlider();
   defaultSetupPictureUpload();
@@ -97,6 +122,7 @@ function closePictureUpload () {
 
 const initUploadPictureModule = () => {
   pictureUploadInput.addEventListener('change', openPictureUpload);
+  defaultSetupPictureUpload();
 };
 
-export {initUploadPictureModule};
+export { initUploadPictureModule };

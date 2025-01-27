@@ -1,5 +1,8 @@
-import {isEscapeKey, isEnterKey} from './rand.js';
+import {isEscapeKey, isEnterKey, showErrorAlert} from './rand.js';
 import {createSocialComment} from './mas.js';
+import { getData } from './data.js';
+import { renderThumbs } from './create-miniature.js';
+import {initUploadPictureModule} from './upload-pic.js';
 const bigPicture = document.querySelector('.big-picture');
 const closePicture = document.querySelector('.big-picture__cancel');
 const bigPictureImg = document.querySelector('.big-picture__img').querySelector('img');
@@ -9,6 +12,14 @@ const socialCommentTotalCount = document.querySelector('.social__comment-total-c
 const photoCaption = bigPicture.querySelector('.social__caption');
 const loadCommButton = bigPicture.querySelector('.comments-loader');
 const commentsCount = bigPicture.querySelector('.social__comment-count');
+
+initUploadPictureModule();
+let dataset = [];
+getData().then((serverData) => {
+  dataset = serverData;
+  renderThumbs(dataset);
+  initUploadPictureModule(dataset);
+}).catch(() => showErrorAlert('Не удалось загрузить данные! Попробуйте перезагрузить страницу.'));
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -45,19 +56,25 @@ const loadComments = () => {
 
 
 const container = document.querySelector('.pictures');
-export function imageProcessor(dataThumbs) {
+export function imageProcessor(data) {
   container.addEventListener('click', (evt) => {
-    if (evt.target.closest('.picture')) {
-      const actualDescription = dataThumbs.find((element) => element.id === parseInt(evt.target.closest('.picture').dataset.id, 10));
-      openPictureModal();
-      bigPictureImg.src = actualDescription.url;
-      likesCount.textContent = actualDescription.likes;
-      socialCommentTotalCount.textContent = actualDescription.comments.length;
-      photoCaption.textContent = actualDescription.description;
-      document.body.classList.add('modal-open');
-      clearComments();
-      createSocialComment(actualDescription.comments, commentsContainer);
-      loadComments();
+    const pictureElement = evt.target.closest('.picture');
+    if (pictureElement) {
+      evt.preventDefault();
+      const pictureId = pictureElement.dataset.id;
+      bigPicture.dataset.pictureId = pictureId;
+      const actualDescription = data.find((item) => String(item.id) === pictureId);
+      if (actualDescription) {
+        openPictureModal();
+        bigPictureImg.src = actualDescription.url;
+        likesCount.textContent = actualDescription.likes;
+        socialCommentTotalCount.textContent = actualDescription.comments.length;
+        photoCaption.textContent = actualDescription.description;
+        document.body.classList.add('modal-open');
+        clearComments();
+        createSocialComment(actualDescription.comments, commentsContainer);
+        loadComments();
+      }
     }
   });
 }
