@@ -2,6 +2,7 @@ const pictureUploadPreview = document.querySelector('.img-upload__preview img');
 const effectLevelSliderContainer = document.querySelector('.img-upload__effect-level');
 const effectLevelInput = document.querySelector('.effect-level__value');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
+const DefaultEffectValue = 100;
 
 const effectSetups = {
   CHROME: {
@@ -51,7 +52,6 @@ const effectSetups = {
   }
 };
 
-const DefaultEffectValue = 100;
 
 const updateSlider = (effect) => {
   effectLevelSlider.noUiSlider.updateOptions({
