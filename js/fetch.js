@@ -2,6 +2,15 @@ import {isEscapeKey} from './rand.js';
 
 const picturePreviewContainer = document.querySelector('.img-upload');
 
+const closeMessage = () => {
+  if (document.querySelector('.success')) {
+    document.querySelector('.success').remove();
+  }
+  if (document.querySelector('.error')) {
+    document.querySelector('.error').remove();
+  }
+};
+
 const onMessageModalKeydown = (evt) => {
   evt.stopPropagation();
   if (isEscapeKey) {
@@ -33,13 +42,5 @@ const showMessage = (messageBuilder, messageType) => {
   addMessageListeners(messageType);
 };
 
-function closeMessage() {
-  if (document.querySelector('.success')) {
-    document.querySelector('.success').remove();
-  }
-  if (document.querySelector('.error')) {
-    document.querySelector('.error').remove();
-  }
-}
 
 export { showMessage, createSuccessMessage, createErrorMessage };

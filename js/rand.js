@@ -12,15 +12,7 @@ const isEnterKey = (evt) => evt.key === 'Enter';
 
 const showErrorAlert = (text) => {
   const message = document.createElement('div');
-  message.style.zIndex = '100';
-  message.style.position = 'absolute';
-  message.style.left = '0';
-  message.style.top = '0';
-  message.style.right = '0';
-  message.style.padding = '10px';
-  message.style.fontSize = '20px';
-  message.style.textAlign = 'center';
-  message.style.backgroundColor = 'red';
+  message.classList.add('text__error');
   message.textContent = text;
 
   document.body.append(message);

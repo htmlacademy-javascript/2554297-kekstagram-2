@@ -1,25 +1,14 @@
-import {isEscapeKey, isEnterKey, showErrorAlert} from './rand.js';
+import {isEscapeKey, isEnterKey} from './rand.js';
 import {createSocialComment} from './mas.js';
-import { getData } from './data.js';
-import { renderThumbs } from './create-miniature.js';
-import {initUploadPictureModule} from './upload-pic.js';
 const bigPicture = document.querySelector('.big-picture');
-const closePicture = document.querySelector('.big-picture__cancel');
-const bigPictureImg = document.querySelector('.big-picture__img').querySelector('img');
-const likesCount = document.querySelector('.likes-count');
-const commentsContainer = bigPicture.querySelector('.social__comments');
-const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
+const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
+const likesCount = bigPicture.querySelector('.likes-count');
+const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const photoCaption = bigPicture.querySelector('.social__caption');
+const commentsContainer = bigPicture.querySelector('.social__comments');
 const loadCommButton = bigPicture.querySelector('.comments-loader');
 const commentsCount = bigPicture.querySelector('.social__comment-count');
-
-initUploadPictureModule();
-let dataset = [];
-getData().then((serverData) => {
-  dataset = serverData;
-  renderThumbs(dataset);
-  initUploadPictureModule(dataset);
-}).catch(() => showErrorAlert('Не удалось загрузить данные! Попробуйте перезагрузить страницу.'));
+const closePicture = bigPicture.querySelector('.big-picture__cancel');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -30,15 +19,8 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function openPictureModal() {
-  bigPicture.classList.remove('hidden');
-  document.addEventListener('keydown', onDocumentKeydown);
-}
-
 const clearComments = () => {
-  while (commentsContainer.firstChild) {
-    commentsContainer.innerHTML = '';
-  }
+  commentsContainer.innerHTML = '';
 };
 
 const loadComments = () => {
@@ -54,30 +36,33 @@ const loadComments = () => {
   }
 };
 
+function openPictureModal(actualDescription) {
+  bigPicture.classList.remove('hidden');
+  document.addEventListener('keydown', onDocumentKeydown);
+  bigPictureImg.src = actualDescription.url;
+  likesCount.textContent = actualDescription.likes;
+  socialCommentTotalCount.textContent = actualDescription.comments.length;
+  photoCaption.textContent = actualDescription.description;
+  document.body.classList.add('modal-open');
+  clearComments();
+  createSocialComment(actualDescription.comments, commentsContainer);
+  loadComments();
+}
 
 const container = document.querySelector('.pictures');
-export function imageProcessor(data) {
-  container.addEventListener('click', (evt) => {
-    const pictureElement = evt.target.closest('.picture');
-    if (pictureElement) {
-      evt.preventDefault();
-      const pictureId = pictureElement.dataset.id;
-      bigPicture.dataset.pictureId = pictureId;
-      const actualDescription = data.find((item) => String(item.id) === pictureId);
-      if (actualDescription) {
-        openPictureModal();
-        bigPictureImg.src = actualDescription.url;
-        likesCount.textContent = actualDescription.likes;
-        socialCommentTotalCount.textContent = actualDescription.comments.length;
-        photoCaption.textContent = actualDescription.description;
-        document.body.classList.add('modal-open');
-        clearComments();
-        createSocialComment(actualDescription.comments, commentsContainer);
-        loadComments();
-      }
+function handlePictureClick(evt, data) {
+  const pictureElement = evt.target.closest('.picture');
+  if (pictureElement) {
+    evt.preventDefault();
+    const pictureId = pictureElement.dataset.id;
+    bigPicture.dataset.pictureId = pictureId;
+    const actualDescription = data.find((item) => String(item.id) === pictureId);
+    if (actualDescription) {
+      openPictureModal(actualDescription);
     }
-  });
+  }
 }
+
 
 loadCommButton.addEventListener('click', () => {
   loadComments();
@@ -102,3 +87,6 @@ closePicture.addEventListener('keydown', (evt) => {
   loadCommButton.classList.remove('hidden');
 });
 
+export function imageProcessor(data) {
+  container.addEventListener('click', (evt) => handlePictureClick(evt, data));
+}
