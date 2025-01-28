@@ -1,6 +1,6 @@
 const findDuplicates = (elements) => elements.filter((item, index) => elements.indexOf(item) !== index);
-
-const HASHTAG = /#[\da-zа-яё0-9]{1,19}\s/gi;
+const maxCmmentLength = 140;
+const hashtagRegular = /#[\da-zа-яё0-9]{1,19}\s/gi;
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
@@ -13,16 +13,17 @@ const checkHashtags = () => {
     return true;
   }
 
-  if (`${hashtagString} `.replace(HASHTAG, '') || hashtagString.split(' ').length > 5 || findDuplicates(hashtagString.toLowerCase().split(' ')).length !== 0) {
+  if (`${hashtagString} `.replace(hashtagRegular, '') || hashtagString.split(' ').length > 5 || findDuplicates(hashtagString.toLowerCase().split(' ')).length !== 0) {
     return false;
   }
 
   return true;
 };
 
+
 const checkCommentLength = () => {
   const comment = commentInput.value.trim();
-  return comment.length <= 140;
+  return comment.length <= maxCmmentLength;
 };
 
 const pristineSetup = new Pristine(pictureUploadForm, {
