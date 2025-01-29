@@ -1,20 +1,28 @@
-const description = ['пляж', 'лес', 'море', 'юг', 'оеан', 'лето', 'весна', 'котики', 'будни',
-  'работа', 'лайфхаки', 'блог', 'прайс-лист', 'ночь', 'эстетика',
-  'книги', 'еда', 'зоопарк', 'театр', 'прогулка', 'путешествие', 'парк', 'закат', 'музыка', 'хобби',
-];
-const messageCommentator = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
-const nameCommentator = [
-  'Маша', 'Саша', 'Дима', 'Андрей', 'Алексей', 'Вика', 'Сережа', 'Эдик', 'Сеня', 'Даша', 'Лика',
-  'Рома', 'Оля', 'Юля', 'Антон', 'Люда', 'Виктор', 'Лилия', 'Олег', 'Давид', 'Влад', 'Люба', 'Женя', 'Ксюша', 'Настя',
-];
+const serverUrl = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
-const count = 25;
+const getData = (onLoad, onFail) => {
+  fetch(`${serverUrl}/data`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .then(onLoad)
+    .catch(onFail);
+};
 
-export {description, messageCommentator, nameCommentator, count};
+const sendData = (body) => fetch(`${serverUrl}`, {
+  method: 'POST',
+  body: body,
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  });
+
+export {getData, sendData};
