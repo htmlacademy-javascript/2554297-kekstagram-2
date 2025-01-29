@@ -1,4 +1,11 @@
 import { renderThumbs } from './create-miniature.js';
+import {showErrorAlert} from './until.js';
+import {getData} from './data.js';
+
+const RANDOM_PHOTOS_COUNT = 10;
+const RERENDER_DELAY = 500;
+const filterContainer = document.querySelector('.img-filters');
+const filterButtons = filterContainer.querySelectorAll('.img-filters__button');
 
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
@@ -9,11 +16,6 @@ const debounce = (callback, timeoutDelay) => {
     }, timeoutDelay);
   };
 };
-
-const RANDOM_PHOTOS_COUNT = 10;
-const RERENDER_DELAY = 500;
-const filterContainer = document.querySelector('.img-filters');
-const filterButtons = filterContainer.querySelectorAll('.img-filters__button');
 
 const sortDescThumbnails = (first, second) => second.comments.length - first.comments.length;
 
@@ -51,5 +53,9 @@ const initSortFiltersModule = (data) => {
   filterContainer.addEventListener('click', (evt) => onThumbnailsFilterClick(evt, data));
 };
 
-export { initSortFiltersModule };
 
+getData((server) => {
+  const data = server;
+  renderThumbs(data);
+  initSortFiltersModule(data);
+}, showErrorAlert);

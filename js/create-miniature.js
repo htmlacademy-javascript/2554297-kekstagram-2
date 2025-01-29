@@ -19,4 +19,5 @@ const renderThumbs = (dataThumb) => {
   container.appendChild(fragment);
 };
 
+
 export { renderThumbs };

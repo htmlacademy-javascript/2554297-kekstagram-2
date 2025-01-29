@@ -1,7 +1,9 @@
 import { validateUploadPictureForm } from './validation.js';
-import { createSlider, setupSlider, destroySlider } from './upload-slide.js';
-import { showMessage, createSuccessMessage, createErrorMessage } from './fetch.js';
+import { createSlider, setupSlider, destroySlider } from './effect.js';
+import { showMessage, createSuccessMessage, createErrorMessage } from './message.js';
 import { sendData } from './data.js';
+import {showErrorAlert} from './until.js';
+import {getData} from './data.js';
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = document.querySelector('#upload-file');
@@ -132,4 +134,8 @@ const initUploadPictureModule = () => {
   defaultSetupPictureUpload();
 };
 
-export { initUploadPictureModule };
+getData((server) => {
+  const data = server;
+  initUploadPictureModule(data);
+}, showErrorAlert);
+

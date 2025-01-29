@@ -1,8 +1,26 @@
-const processResponse = (url, method, body = null) => fetch(url, { method: method, body: body }).
-  then((response) => response.json());
+const serverUrl = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
-const getData = () => processResponse('https://31.javascript.htmlacademy.pro/kekstagram/data', 'GET');
+const getData = (onLoad, onFail) => {
+  fetch(`${serverUrl}/data`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .then(onLoad)
+    .catch(onFail);
+};
 
-const sendData = (body) => processResponse('https://31.javascript.htmlacademy.pro/kekstagram', 'POST', body);
+const sendData = (onLoad, onFail, body) => {
+  fetch(`${serverUrl}`, {
+    method: 'POST',
+    body: body,
+  })
+    .then(onLoad)
+    .catch(onFail);
+};
 
-export { getData, sendData };
+export {getData, sendData};
