@@ -9,7 +9,6 @@ const pictureUploadPreview = document.querySelector('.img-upload__preview img');
 const pictureEdit = document.querySelector('.img-upload__overlay');
 const submitButton = document.querySelector('.img-upload__submit');
 const closeButton = document.querySelector('.img-upload__cancel');
-
 const effectsList = document.querySelector('.effects__list');
 const checkedEffectInput = document.querySelector('.effects__radio[checked]');
 
@@ -106,11 +105,19 @@ function openPictureUpload() {
   addListeners();
   createSlider();
   setupSlider(checkedEffectInput.value);
-
+  const uploadedImage = URL.createObjectURL(pictureUploadInput.files[0]);
+  pictureUploadPreview.src = uploadedImage;
+  updateEffectPreviews(uploadedImage);
   document.body.classList.add('modal-open');
   pictureEdit.classList.remove('hidden');
 }
-
+function updateEffectPreviews(uploadedImage) {
+  const effectPreviews = document.querySelectorAll('.effects__preview ');
+  effectPreviews.forEach((preview) => {
+    preview.style.backgroundImage = `url(${uploadedImage})`;
+    preview.style.backgroundSize = 'cover';
+  });
+}
 function closePictureUpload() {
   removeListeners();
   destroySlider();

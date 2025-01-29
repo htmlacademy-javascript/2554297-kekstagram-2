@@ -4,6 +4,7 @@ import { imageProcessor } from './full-picture.js';
 import {initUploadPictureModule} from './upload-pic.js';
 import { getData } from './data.js';
 import { showErrorAlert } from './rand.js';
+import { initSortFiltersModule } from './filter.js';
 
 const message = 'Не удалось загрузить данные! Попробуйте перезагрузить страницу.';
 
@@ -13,5 +14,6 @@ getData()
     const dataset = serverData;
     renderThumbs(dataset);
     imageProcessor(dataset);
+    initSortFiltersModule(dataset);
   })
   .catch(() => showErrorAlert(message));
