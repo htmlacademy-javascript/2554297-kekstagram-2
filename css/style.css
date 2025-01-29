@@ -682,6 +682,12 @@ main {
   border: none;
 }
 
+.text__error {
+  color: rgb(255, 0, 0);
+  font-size: 12px;
+
+}
+
 .text__hashtags {
   width: 450px;
 
