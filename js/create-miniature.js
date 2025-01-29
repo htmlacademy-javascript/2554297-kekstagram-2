@@ -1,22 +1,23 @@
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-const fragment = document.createDocumentFragment();
-
 const renderThumbs = (dataThumb) => {
-  dataThumb.forEach(({id, url, description, comments, likes}) => {
+  const existingThumbnails = container.querySelectorAll('.picture');
+  existingThumbnails.forEach((thumbnail) => thumbnail.remove());
+
+  const fragment = document.createDocumentFragment();
+  dataThumb.forEach(({ id, url, description, comments, likes }) => {
     const copy = template.cloneNode(true);
     copy.querySelector('.picture__img').src = url;
     copy.querySelector('.picture__img').alt = description;
     copy.querySelector('.picture__comments').textContent = comments.length;
     copy.querySelector('.picture__likes').textContent = likes;
     copy.dataset.id = String(id);
-    container.append(copy);
+    fragment.appendChild(copy);
   });
+
+  container.appendChild(fragment);
 };
 
-container.appendChild(fragment);
 
-
-export {renderThumbs};
-
+export { renderThumbs };
