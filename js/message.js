@@ -1,4 +1,4 @@
-import {isEscapeKey} from './rand.js';
+import {isEscapeKey} from './until.js';
 
 const picturePreviewContainer = document.querySelector('.img-upload');
 
