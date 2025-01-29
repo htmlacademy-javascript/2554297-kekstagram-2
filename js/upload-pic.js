@@ -134,6 +134,7 @@ const initUploadPictureModule = () => {
   defaultSetupPictureUpload();
 };
 
+
 getData((server) => {
   const data = server;
   initUploadPictureModule(data);
