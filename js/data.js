@@ -1,6 +1,6 @@
 const serverUrl = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
-const getData = (onLoad, onFail) => {
+const getData = (onLoad) => {
   fetch(`${serverUrl}/data`, {
     method: 'GET',
   })
@@ -10,8 +10,7 @@ const getData = (onLoad, onFail) => {
       }
       return response.json();
     })
-    .then(onLoad)
-    .catch(onFail);
+    .then(onLoad);
 };
 
 const sendData = (body) => fetch(`${serverUrl}`, {

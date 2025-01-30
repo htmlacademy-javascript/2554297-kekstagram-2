@@ -1,6 +1,4 @@
 import { renderThumbs } from './create-miniature.js';
-import {showErrorAlert} from './until.js';
-import {getData} from './data.js';
 
 const RANDOM_PHOTOS_COUNT = 10;
 const RERENDER_DELAY = 500;
@@ -48,14 +46,8 @@ const onThumbnailsFilterClick = (evt, data) => {
   }
 };
 
-const initSortFiltersModule = (data) => {
+export const initSortFiltersModule = (data) => {
   filterContainer.classList.remove('img-filters--inactive');
   filterContainer.addEventListener('click', (evt) => onThumbnailsFilterClick(evt, data));
-};
-
-
-getData((server) => {
-  const data = server;
   renderThumbs(data);
-  initSortFiltersModule(data);
-}, showErrorAlert);
+};
