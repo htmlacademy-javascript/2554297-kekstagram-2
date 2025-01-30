@@ -1,7 +1,6 @@
 import {isEscapeKey, isEnterKey} from './until.js';
 import {createSocialComment} from './mas.js';
-import {showErrorAlert} from './until.js';
-import {getData} from './data.js';
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -89,12 +88,8 @@ closePicture.addEventListener('keydown', (evt) => {
   loadCommButton.classList.remove('hidden');
 });
 
-function imageProcessor(data) {
+export function imageProcessor(data) {
   container.addEventListener('click', (evt) => handlePictureClick(evt, data));
 }
 
-getData((server) => {
-  const data = server;
-  imageProcessor(data);
-}, showErrorAlert);
 

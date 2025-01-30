@@ -725,6 +725,14 @@ main {
   position: relative;
 }
 
+.text_error {
+  background-color: #fd4d4b;
+  color:#ffffff;
+  font-size: 12px;
+  margin-top: -20px;
+  z-index: 10000;
+  position: relative;
+}
 
 /**
  * Кнопка для отправки изображения

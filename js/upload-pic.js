@@ -2,8 +2,6 @@ import { validateUploadPictureForm } from './validation.js';
 import { createSlider, setupSlider, destroySlider } from './effect.js';
 import { showMessage, createSuccessMessage, createErrorMessage } from './message.js';
 import { sendData } from './data.js';
-import {showErrorAlert} from './until.js';
-import {getData} from './data.js';
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = document.querySelector('#upload-file');
@@ -129,14 +127,9 @@ function closePictureUpload() {
   pictureEdit.classList.add('hidden');
 }
 
-const initUploadPictureModule = () => {
+export const initUploadPictureModule = () => {
   pictureUploadInput.addEventListener('change', openPictureUpload);
   defaultSetupPictureUpload();
 };
 
-
-getData((server) => {
-  const data = server;
-  initUploadPictureModule(data);
-}, showErrorAlert);
 
