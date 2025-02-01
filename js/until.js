@@ -12,5 +12,13 @@ const showErrorAlert = () => {
 
   setTimeout(() => message.remove(), ALERT_SHOW_TIME);
 };
-
-export {isEscapeKey, isEnterKey, showErrorAlert};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return function(data, id) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      callback(data, id);
+    }, timeoutDelay);
+  };
+};
+export {isEscapeKey, isEnterKey, showErrorAlert, debounce};

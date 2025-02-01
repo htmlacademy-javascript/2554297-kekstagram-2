@@ -1,18 +1,13 @@
-import { renderThumbs } from './create-miniature.js';
-
+import {renderThumbs} from './create-miniature.js';
+import {debounce} from './until.js';
 const RANDOM_PHOTOS_COUNT = 10;
 const RERENDER_DELAY = 500;
 const filterContainer = document.querySelector('.img-filters');
 const filterButtons = filterContainer.querySelectorAll('.img-filters__button');
 
-const debounce = (callback, timeoutDelay) => {
-  let timeoutId;
-  return function(data, id) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      callback(data, id);
-    }, timeoutDelay);
-  };
+const FilterType = {
+  random: 'filter-random',
+  discussed: 'filter-discussed',
 };
 
 const sortDescThumbnails = (first, second) => second.comments.length - first.comments.length;
@@ -20,7 +15,7 @@ const sortDescThumbnails = (first, second) => second.comments.length - first.com
 const rerenderThumbnails = (data, id) => {
   let dataCopy = [...data];
 
-  if (id === 'filter-random') {
+  if (id === FilterType.random) {
     for (let i = dataCopy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [dataCopy[i], dataCopy[j]] = [dataCopy[j], dataCopy[i]];
@@ -28,7 +23,7 @@ const rerenderThumbnails = (data, id) => {
     dataCopy = dataCopy.slice(0, RANDOM_PHOTOS_COUNT);
   }
 
-  if (id === 'filter-discussed') {
+  if (id === FilterType.discussed) {
     dataCopy.sort(sortDescThumbnails);
   }
 
