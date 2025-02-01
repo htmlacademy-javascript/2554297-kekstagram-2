@@ -1,8 +1,8 @@
-import { validateUploadPictureForm } from './validation.js';
-import { createSlider, setupSlider, destroySlider } from './effect.js';
-import { showMessage, createSuccessMessage, createErrorMessage } from './message.js';
-import { sendData } from './data.js';
-
+import {validateUploadPictureForm} from './validation.js';
+import {createSlider, setupSlider, destroySlider} from './effect.js';
+import {showMessage, createSuccessMessage, createErrorMessage} from './message.js';
+import {sendData} from './data.js';
+import {isEscapeKey} from './until.js';
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = document.querySelector('#upload-file');
 const pictureUploadPreview = document.querySelector('.img-upload__preview img');
@@ -61,7 +61,7 @@ const onEffectInputClick = (evt) => {
 const onCloseButtonClick = () => closePictureUpload();
 
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape' && !evt.target.closest('.text__hashtags') && !evt.target.closest('.text__description')) {
+  if (isEscapeKey && !evt.target.closest('.text__hashtags') && !evt.target.closest('.text__description')) {
     closePictureUpload();
   }
 };
