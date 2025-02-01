@@ -1,6 +1,7 @@
 const maxHashtags = 5;
 const hashtagRegex = /^#[a-zA-Z\dа-яё]{1,19}$/;
 const maxCommentLength = 140;
+const maxHashtagsLength = 20;
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
@@ -71,7 +72,7 @@ const validateHashtags = (value) => {
     errorMessages.push(errorMessage.hashtagOnlyHash);
   }
 
-  if (!hashtags.every((hashtag) => hashtag.length < 20)) {
+  if (!hashtags.every((hashtag) => hashtag.length < maxHashtagsLength)) {
     errorMessages.push(errorMessage.maxLengthHashtag);
   }
 
