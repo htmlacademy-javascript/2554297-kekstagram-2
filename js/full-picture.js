@@ -1,6 +1,7 @@
 import {isEscapeKey, isEnterKey} from './until.js';
-import {createSocialComment} from './mas.js';
+import {commentsCreated} from './mas.js';
 
+const COUNT_COMMENT_VISIBLE = 5;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -10,7 +11,7 @@ const commentsContainer = bigPicture.querySelector('.social__comments');
 const loadCommButton = bigPicture.querySelector('.comments-loader');
 const commentsCount = bigPicture.querySelector('.social__comment-count');
 const closePicture = bigPicture.querySelector('.big-picture__cancel');
-const CountComentVisible = 5;
+
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -29,14 +30,14 @@ const loadComments = () => {
   const hiddenComments = commentsContainer.querySelectorAll('.hidden');
   if (hiddenComments.length > 0) {
     const hiddenCommentsArray = Array.from(hiddenComments);
-    const commentToShow = hiddenCommentsArray.slice(0, CountComentVisible);
+    const visibleComments = hiddenCommentsArray.slice(0, COUNT_COMMENT_VISIBLE);
 
-    commentToShow.forEach((comment) => {
+    visibleComments.forEach((comment) => {
       comment.classList.remove('hidden');
     });
 
     commentsCount.textContent = `${commentsContainer.children.length - commentsContainer.querySelectorAll('.hidden').length} из ${commentsContainer.children.length} комментариев`;
-    if (hiddenComments.length <= CountComentVisible) {
+    if (hiddenComments.length <= COUNT_COMMENT_VISIBLE) {
       loadCommButton.classList.add('hidden');
     }
   }
@@ -66,7 +67,7 @@ function openPictureModal(actualDescription) {
   photoCaption.textContent = actualDescription.description;
   document.body.classList.add('modal-open');
   clearComments();
-  createSocialComment(actualDescription.comments, commentsContainer);
+  commentsCreated(actualDescription.comments, commentsContainer);
   loadComments();
 }
 

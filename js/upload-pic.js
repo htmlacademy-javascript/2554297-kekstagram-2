@@ -1,8 +1,15 @@
-import {validateUploadPictureForm} from './validation.js';
+import {validateUploadPictureForm, cleaningForm} from './validation.js';
 import {createSlider, setupSlider, destroySlider} from './effect.js';
 import {showMessage, createSuccessMessage, createErrorMessage} from './message.js';
 import {sendData} from './data.js';
 import {isEscapeKey} from './until.js';
+
+const SCALE_STEP = 25;
+const MAX_SCALE = 100;
+const MIN_SCALE = 25;
+const PERCENT_BASE = 100;
+const DECIMAL_BASE = 10;
+
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = document.querySelector('#upload-file');
 const pictureUploadPreview = document.querySelector('.img-upload__preview img');
@@ -16,10 +23,12 @@ const pictureScaleInput = document.querySelector('.scale__control--value');
 const pictureScaleDownButton = document.querySelector('.scale__control--smaller');
 const pictureScaleUpButton = document.querySelector('.scale__control--bigger');
 
+const isFormValid = validateUploadPictureForm();
+
 const onUploadPictureFormSubmit = (evt) => {
   evt.preventDefault();
 
-  if (validateUploadPictureForm()) {
+  if (isFormValid) {
     blockSubmitButton();
     sendData(new FormData(evt.target))
       .then(() => {
@@ -36,16 +45,16 @@ const onUploadPictureFormSubmit = (evt) => {
 };
 
 const onScaleDownButtonClick = () => {
-  if (parseInt(pictureScaleInput.value, 10) > 25) {
-    pictureScaleInput.value = `${parseInt(pictureScaleInput.value, 10) - 25}%`;
-    pictureUploadPreview.style.transform = `scale(${parseInt(pictureScaleInput.value, 10) / 100})`;
+  if (parseInt(pictureScaleInput.value, DECIMAL_BASE) > MIN_SCALE) {
+    pictureScaleInput.value = `${parseInt(pictureScaleInput.value, DECIMAL_BASE) - SCALE_STEP}%`;
+    pictureUploadPreview.style.transform = `scale(${parseInt(pictureScaleInput.value, DECIMAL_BASE) / PERCENT_BASE})`;
   }
 };
 
 const onScaleUpButtonClick = () => {
-  if (parseInt(pictureScaleInput.value, 10) < 100) {
-    pictureScaleInput.value = `${parseInt(pictureScaleInput.value, 10) + 25}%`;
-    pictureUploadPreview.style.transform = `scale(${parseInt(pictureScaleInput.value, 10) / 100})`;
+  if (parseInt(pictureScaleInput.value, DECIMAL_BASE) < MAX_SCALE) {
+    pictureScaleInput.value = `${parseInt(pictureScaleInput.value, DECIMAL_BASE) + SCALE_STEP}%`;
+    pictureUploadPreview.style.transform = `scale(${parseInt(pictureScaleInput.value, DECIMAL_BASE) / PERCENT_BASE})`;
   }
 };
 
@@ -125,6 +134,7 @@ function closePictureUpload() {
 
   document.body.classList.remove('modal-open');
   pictureEdit.classList.add('hidden');
+  cleaningForm();
 }
 
 export const initUploadPictureModule = () => {

@@ -2,13 +2,13 @@ import {renderThumbs} from './create-miniature.js';
 import {debounce} from './until.js';
 const RANDOM_PHOTOS_COUNT = 10;
 const RERENDER_DELAY = 500;
-const filterContainer = document.querySelector('.img-filters');
-const filterButtons = filterContainer.querySelectorAll('.img-filters__button');
-
 const FilterType = {
   random: 'filter-random',
   discussed: 'filter-discussed',
 };
+
+const filterContainer = document.querySelector('.img-filters');
+const filterButtons = filterContainer.querySelectorAll('.img-filters__button');
 
 const sortDescThumbnails = (first, second) => second.comments.length - first.comments.length;
 
