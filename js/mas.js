@@ -8,7 +8,7 @@ const makeElement = (name, className, message) => {
   return element;
 };
 
-const createSocialComment = (mas, container) => {
+const commentsCreated = (mas, container) => {
   mas.forEach((element) => {
     const listElement = makeElement('li', 'social__comment');
     listElement.classList.add('hidden');
@@ -22,5 +22,5 @@ const createSocialComment = (mas, container) => {
   });
 };
 
-export {createSocialComment};
+export {commentsCreated};
 
