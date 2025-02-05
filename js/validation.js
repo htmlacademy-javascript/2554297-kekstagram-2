@@ -1,14 +1,14 @@
-const maxHashtags = 5;
-const hashtagRegex = /^#[a-zA-Z\dа-яё]{1,19}$/;
-const maxCommentLength = 140;
-const maxHashtagsLength = 20;
+const MAX_COUNT_HASHTAGS = 5;
+const HASHTAGS_REGEX = /^#[a-zA-Z\dа-яё]{1,19}$/;
+const MAX_COMMENT_LENGTH = 140;
+const MAX_HASHTAGS_LENGTH = 20;
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 
-const findDuplicates = (arr) => {
-  const lowerArr = arr.map((item) => item.toLowerCase());
-  return lowerArr.some((item, index) => lowerArr.indexOf(item) !== index);
+const findDuplicates = (arrays) => {
+  const lowerArrays = arrays.map((item) => item.toLowerCase());
+  return lowerArrays.some((item, index) => lowerArrays.indexOf(item) !== index);
 };
 
 
@@ -22,7 +22,7 @@ let hashtagErrors = false;
 
 
 const checkCommentLength = (value) => {
-  const isValid = value.trim().length <= maxCommentLength;
+  const isValid = value.trim().length <= MAX_COMMENT_LENGTH;
   const errorMessages = document.querySelector('.text_error');
 
   if (!isValid) {
@@ -64,7 +64,7 @@ const validateHashtags = (value) => {
     errorMessages.push(errorMessage.hashtagStartWithHash);
   }
 
-  if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
+  if (!hashtags.every((hashtag) => HASHTAGS_REGEX.test(hashtag))) {
     errorMessages.push(errorMessage.invalidChar);
   }
 
@@ -72,7 +72,7 @@ const validateHashtags = (value) => {
     errorMessages.push(errorMessage.hashtagOnlyHash);
   }
 
-  if (!hashtags.every((hashtag) => hashtag.length < maxHashtagsLength)) {
+  if (hashtags.every((hashtag) => hashtag.length >= MAX_HASHTAGS_LENGTH)) {
     errorMessages.push(errorMessage.maxLengthHashtag);
   }
 
@@ -80,7 +80,7 @@ const validateHashtags = (value) => {
     errorMessages.push(errorMessage.duplicate);
   }
 
-  if (hashtags.length > maxHashtags) {
+  if (hashtags.length > MAX_COUNT_HASHTAGS) {
     errorMessages.push(errorMessage.maxHashtagExceeded);
   }
 
@@ -93,10 +93,6 @@ const validateHashtags = (value) => {
 
 pristineSetup.addValidator(hashtagInput, validateHashtags, (error) => error);
 pristineSetup.addValidator(commentInput, checkCommentLength, 1, false, 'comment-error');
-
-hashtagInput.addEventListener('input', () => {
-  pristineSetup.validate(hashtagInput);
-});
 
 
 const updateHashtagError = () => {
@@ -129,4 +125,11 @@ const validateUploadPictureForm = () => {
   return hashtagIsValid && !hashtagErrors;
 };
 
-export {validateUploadPictureForm};
+const cleaningForm = () => {
+  if (hashtagInput.nextElementSibling && hashtagInput.nextElementSibling.classList.contains('img-upload__field-wrapper--error')) {
+    hashtagInput.nextElementSibling.remove();
+    pristineSetup.reset();
+  }
+};
+
+export {validateUploadPictureForm, cleaningForm};
